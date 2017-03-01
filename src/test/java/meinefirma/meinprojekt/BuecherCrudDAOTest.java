@@ -1,8 +1,16 @@
-package de.meinefirma.meinprojekt;
+package meinefirma.meinprojekt;
 
-import static org.testng.Assert.*;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
+import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
+
 import java.util.List;
+
+import org.testng.annotations.Test;
+
 import meinefirma.meinprojekt.dao.BuecherCrudDAO;
 import meinefirma.meinprojekt.ws.BuchDO;
 
@@ -15,9 +23,9 @@ public class BuecherCrudDAOTest
    static {
       for( int i = 0; i < ANZAHL_BUECHER; i++ ) {
          BuchDO bu = new BuchDO();
-         bu.setIsbn( Long.valueOf( START_ISBN + i ) );
+         bu.setIsbn(START_ISBN + i);
          bu.setTitel( "Buch " + i );
-         bu.setPreis( new Double( i ) );
+         bu.setPreis((double) i);
          try {
             dao.createBuch( bu );
          } catch( Exception ex ) {
@@ -30,9 +38,9 @@ public class BuecherCrudDAOTest
    {
       try {
          BuchDO bu = new BuchDO();
-         bu.setIsbn( Long.valueOf( START_ISBN + ANZAHL_BUECHER - 1 ) );
+         bu.setIsbn(START_ISBN + ANZAHL_BUECHER - 1);
          bu.setTitel( "Buch" );
-         bu.setPreis( new Double( 0 ) );
+         bu.setPreis(0d);
          dao.createBuch( bu );
          fail();
       } catch( Exception ex ) {
@@ -43,9 +51,9 @@ public class BuecherCrudDAOTest
    {
       BuchDO bu = dao.getBuchByIsbn( null );
       assertNull( bu );
-      bu = dao.getBuchByIsbn( Long.valueOf( -1 ) );
+      bu = dao.getBuchByIsbn((long) -1);
       assertNull( bu );
-      bu = dao.getBuchByIsbn( Long.valueOf( START_ISBN + ANZAHL_BUECHER / 2 ) );
+      bu = dao.getBuchByIsbn(START_ISBN + ANZAHL_BUECHER / 2);
       assertNotNull( bu );
    }
 
@@ -55,31 +63,31 @@ public class BuecherCrudDAOTest
       assertTrue( buecher != null && buecher.size() >= ANZAHL_BUECHER );
       buecher = dao.findeBuecher( null, "buch" );
       assertTrue( buecher != null && buecher.size() >= ANZAHL_BUECHER );
-      buecher = dao.findeBuecher( Long.valueOf( -1 ), "" );
+      buecher = dao.findeBuecher((long) -1, "" );
       assertEquals( 0, buecher.size() );
-      buecher = dao.findeBuecher( Long.valueOf( START_ISBN ), null );
+      buecher = dao.findeBuecher(START_ISBN, null );
       assertEquals( 1, buecher.size() );
    }
 
    @Test public void testUpdateBuchByIsbn()
    {
-      Long   isbn = Long.valueOf( START_ISBN + ANZAHL_BUECHER / 2 );
+      Long   isbn = START_ISBN + ANZAHL_BUECHER / 2;
       BuchDO bu = dao.getBuchByIsbn( isbn );
       String titel1 = bu.getTitel();
-      dao.updateBuchByIsbn( isbn, "Buch mit neuem Titel", new Double( 0 ) );
+      dao.updateBuchByIsbn( isbn, "Buch mit neuem Titel", 0d);
       bu = dao.getBuchByIsbn( isbn );
       assertFalse( titel1.equals( bu.getTitel() ) );
    }
 
    @Test public void testDeleteBuchByIsbn() throws Exception
    {
-      BuchDO bu = dao.deleteBuchByIsbn( Long.valueOf( -1 ) );
+      BuchDO bu = dao.deleteBuchByIsbn((long) -1);
       assertNull( bu );
-      Long isbn = Long.valueOf( START_ISBN + ANZAHL_BUECHER );
+      Long isbn = START_ISBN + ANZAHL_BUECHER;
       bu = new BuchDO();
       bu.setIsbn( isbn );
       bu.setTitel( "Buch" );
-      bu.setPreis( new Double( 0 ) );
+      bu.setPreis(0d);
       dao.createBuch( bu );
       List<BuchDO> buecher = dao.findeBuecher( null, null );
       assertTrue( buecher.size() >= ANZAHL_BUECHER + 1 );
