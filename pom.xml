@@ -30,7 +30,13 @@
             </plugin>
         </plugins>
     </build>
+
     <dependencies>
+        <!--<dependency>
+            <groupId>org.jvnet.jax-ws-commons</groupId>
+            <artifactId>jaxws-json</artifactId>
+            <version>1.2</version>
+        </dependency>-->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
