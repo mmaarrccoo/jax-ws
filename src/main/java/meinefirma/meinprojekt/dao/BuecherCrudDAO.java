@@ -15,7 +15,7 @@ import meinefirma.meinprojekt.ws.DuplicateCreateException;
 public class BuecherCrudDAO {
 
 	// Map als Datenbank-Simulation:
-	private final Map<Long, BuchDO> buecherPool = new ConcurrentHashMap<>();
+	private final Map<Long, BuchDO> buecherPool = new ConcurrentHashMap<Long, BuchDO>();
 
 	private static final BuecherCrudDAO INSTANCE = new BuecherCrudDAO();
 
@@ -51,7 +51,7 @@ public class BuecherCrudDAO {
 
 	// Finde Buecher:
 	public List<BuchDO> findeBuecher(Long isbn, String titel) {
-		List<BuchDO> resultList = new ArrayList<>();
+		List<BuchDO> resultList = new ArrayList<BuchDO>();
 		List<BuchDO> snapshotList;
 		if (isbn == null && isEmpty(titel))
 			return Collections.unmodifiableList(new ArrayList<BuchDO>(buecherPool.values()));
@@ -63,7 +63,7 @@ public class BuecherCrudDAO {
 			return resultList;
 		}
 		synchronized (buecherPool) {
-			snapshotList = new ArrayList<>(buecherPool.values());
+			snapshotList = new ArrayList<BuchDO>(buecherPool.values());
 		}
 		String titelLC = titel.trim().toLowerCase();
 		for (BuchDO bu : snapshotList)

@@ -8,6 +8,7 @@ import meinefirma.meinprojekt.dao.BuecherCrudDAO;
 
 /**
  * Dienstimplementierung
+ * http://127.0.0.1:8080/jax-ws-1.0-SNAPSHOT/ws/BuecherService?wsdl
  */
 @WebService(endpointInterface = "meinefirma.meinprojekt.ws.BuecherServiceIntf")
 public class BuecherServiceImpl implements BuecherServiceIntf {
